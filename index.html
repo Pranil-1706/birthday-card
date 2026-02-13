@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <!-- Background Music (must be inside body) -->
+ 
   <audio id="bg-music" preload="auto" loop>
     <source src="Yellow.mp3" type="audio/mpeg">
   </audio>
@@ -16,22 +16,16 @@
   <script>
     const music = document.getElementById("bg-music");
 
-    function tryPlay() {
+    function startMusic() {
       music.volume = 0.6;
-      music.play().catch(() => {});
+      music.play().catch(console.log);
     }
 
-    // Try immediately (may be blocked by browser)
-    window.addEventListener("load", tryPlay);
+    // Try on load (works if browser allows)
+    window.addEventListener("load", startMusic);
 
-    // Guaranteed: start on first interaction anywhere (best possible)
-    const startOnce = () => {
-      tryPlay();
-      window.removeEventListener("pointerdown", startOnce);
-      window.removeEventListener("keydown", startOnce);
-    };
-    window.addEventListener("pointerdown", startOnce, { passive: true });
-    window.addEventListener("keydown", startOnce);
+    // Always start on first click/tap
+    window.addEventListener("pointerdown", startMusic, { once: true });
   </script>
 
   <!-- Decorative blobs -->
