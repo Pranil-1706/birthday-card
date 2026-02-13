@@ -8,25 +8,11 @@
 </head>
 
 <body>
- 
+
+  <!-- Background music -->
   <audio id="bg-music" preload="auto" loop>
     <source src="Yellow.mp3" type="audio/mpeg">
   </audio>
-
-  <script>
-    const music = document.getElementById("bg-music");
-
-    function startMusic() {
-      music.volume = 0.6;
-      music.play().catch(console.log);
-    }
-
-    // Try on load (works if browser allows)
-    window.addEventListener("load", startMusic);
-
-    // Always start on first click/tap
-    window.addEventListener("pointerdown", startMusic, { once: true });
-  </script>
 
   <!-- Decorative blobs -->
   <div class="blob blob1"></div>
@@ -75,5 +61,30 @@
       </section>
     </section>
   </main>
+
+  <!-- Script at bottom (more reliable) -->
+  <script>
+    const music = document.getElementById("bg-music");
+
+    async function startMusic() {
+      try {
+        music.volume = 0.6;
+        await music.play();
+        console.log("Music started");
+      } catch (e) {
+        console.log("Blocked:", e);
+      }
+    }
+
+    // Try on load (may work on some Chrome desktops)
+    window.addEventListener("load", startMusic);
+
+    // Best compatibility: Safari + Chrome + mobile
+    window.addEventListener("click", startMusic, { once: true });
+    window.addEventListener("pointerdown", startMusic, { once: true });
+    window.addEventListener("touchstart", startMusic, { once: true });
+    window.addEventListener("keydown", startMusic, { once: true });
+  </script>
+
 </body>
 </html>
