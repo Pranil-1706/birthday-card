@@ -8,6 +8,32 @@
 </head>
 
 <body>
+  <!-- Background Music (must be inside body) -->
+  <audio id="bg-music" preload="auto" loop>
+    <source src="Yellow.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const music = document.getElementById("bg-music");
+
+    function tryPlay() {
+      music.volume = 0.6;
+      music.play().catch(() => {});
+    }
+
+    // Try immediately (may be blocked by browser)
+    window.addEventListener("load", tryPlay);
+
+    // Guaranteed: start on first interaction anywhere (best possible)
+    const startOnce = () => {
+      tryPlay();
+      window.removeEventListener("pointerdown", startOnce);
+      window.removeEventListener("keydown", startOnce);
+    };
+    window.addEventListener("pointerdown", startOnce, { passive: true });
+    window.addEventListener("keydown", startOnce);
+  </script>
+
   <!-- Decorative blobs -->
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
@@ -44,18 +70,15 @@
           <p>You are always loved and valued.</p>
         </div>
       </div>
-      
 
       <section class="note" id="message">
-        <h2> A note for you</h2>
+        <h2>A note for you</h2>
         <p>
-          Happy Birthday! I’m really grateful for you. I don't have words to express how much you mean to me. Keep shining, keep smiling,
-          and keep being you. Here’s to an amazing year ahead and more unforgettable memories together!
+          Happy Birthday! I’m really grateful for you. I don't have words to express how much you mean to me.
+          Keep shining, keep smiling, and keep being you. Here’s to an amazing year ahead and more unforgettable memories together!
         </p>
         <p class="from">From: <span id="from">Pranil</span></p>
       </section>
-
-      
     </section>
   </main>
 </body>
